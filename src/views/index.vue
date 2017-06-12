@@ -1,58 +1,83 @@
-<style scoped>
-    .index {
-        width: 100%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        text-align: center;
-    }
-
-    .index h1 {
-        height: 150px;
-    }
-
-    .index h1 img {
-        height: 100%;
-    }
-
-    .index h2 {
-        color: #666;
-        margin-bottom: 200px;
-    }
-
-    .index h2 p {
-        margin: 0 0 50px;
-    }
-
-    .index .ivu-row-flex {
-        height: 100%;
-    }
-</style>
 <template>
-    <div class="index">
-        <Row type="flex" justify="center" align="middle">
-            <Col span="24">
-                <h1>
-                    <img src="https://raw.githubusercontent.com/iview/iview/master/assets/logo.png">
-                </h1>
-                <h2>
-                    <p>Welcome to your iView app!</p>
-                    <Button type="ghost" @click="handleStart">Start iView</Button>
-                </h2>
-            </Col>
-        </Row>
-    </div>
+    <Table height="700" border :columns="columns1" :data="data1"></Table>
 </template>
 <script>
+    import $ from "../static/js/jquery.js";
+    
     export default {
+        data () {
+            return {
+                columns1: [
+                    {
+                        title: 'domainName',
+                        key: 'domainName',
+                        className: "demo-table-info-cell-address"
+                    },
+                    {
+                        title: 'serviceCode',
+                        key: 'serviceCode',
+                        className: 'demo-table-info-column'
+                    },
+                    {
+                        title: 'token',
+                        key: 'token'
+                    },
+                    {
+                        title: 'data',
+                        key: 'data'
+                    },
+                    {
+                        title: 'date',
+                        key: 'date',
+                        className: 'demo-table-info-cell-age'
+                    }
+                ],
+                data1: []
+            }
+        },
         methods: {
-            handleStart() {
-                this.$Modal.info({
-                    title: 'Bravo',
-                    content: 'Now, enjoy the convenience of iView.'
+            getData: function() {
+                var that = this;
+                $.ajax({
+                    url: "http://10.86.87.112:3003/api/log",
+                    type: "GET",
+                    success: function(resp) {
+                        if (resp.success === true) {
+                            that.data1 = resp.content;
+                        }
+                        console.log(resp)
+                    }
                 });
             }
-        }
-    };
+        },
+        created: function() {
+            this.getData();
+        }        
+    }
 </script>
+<style>
+    .ivu-table .demo-table-info-row td{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-error-row td{
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table td.demo-table-info-column{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table td.demo-table-info-cell-name {
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table td.demo-table-info-cell-age {
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table td.demo-table-info-cell-address {
+        background-color: #187;
+        color: #fff;
+    }
+</style>
