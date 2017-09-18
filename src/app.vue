@@ -139,7 +139,7 @@
 			}
 		},
         created: function() {
-            this.nowHash =  window.location.hash.substring(2);
+            this.nowHash =  window.location.hash.substring(2) || "type";
         },
         methods: {
 			changeFunction: function(name) {

@@ -1,6 +1,6 @@
 const routers = [{
     path: '/',
-    component: (resolve) => require(['./views/index.vue'], resolve)
+    component: (resolve) => require(['./views/type.vue'], resolve)
 },{
     path: '/index',
     component: (resolve) => require(['./views/index.vue'], resolve)
