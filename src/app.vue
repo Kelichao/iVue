@@ -1,55 +1,61 @@
 <style scoped>
-    .layout{
+    .layout {
         border: 1px solid #d7dde4;
         background: #f5f7f9;
     }
-    .layout-logo{
+
+    .layout-logo {
         width: 100px;
         height: 30px;
         background: #5b6270;
-		background: url("/src/static/images/EVUN_logo.png") no-repeat center center;
+        background: url("/src/static/images/EVUN_logo.png") no-repeat center center;
         border-radius: 3px;
         float: left;
         position: relative;
         top: 15px;
         left: 20px;
     }
-    .layout-nav{
+
+    .layout-nav {
         width: 600px;
         margin: 0 auto;
     }
-    .layout-assistant{
+
+    .layout-assistant {
         width: 480px;
         margin: 0 auto;
         height: inherit;
     }
-    .layout-breadcrumb{
+
+    .layout-breadcrumb {
         padding: 10px 15px 0;
     }
-    .layout-content{
+
+    .layout-content {
         min-height: 200px;
         margin: 15px;
         overflow: hidden;
         background: #fff;
         border-radius: 4px;
     }
-    .layout-content-main{
+
+    .layout-content-main {
         padding: 10px;
-        padding-top:0px;
+        padding-top: 0px;
     }
-    .layout-copy{
+
+    .layout-copy {
         text-align: center;
         padding: 10px 0 20px;
         color: #9ea7b4;
     }
-
     /*.ivu-menu-horizontal {
         height:80px;
         line-height:80px;
     }*/
 </style>
 <template>
-    <div class="layout">
+    <div v-if="isLogin === true" class="layout">
         <Menu mode="horizontal" theme="dark" active-name="1">
             <div class="layout-logo"></div>
             <div class="layout-nav">
@@ -59,16 +65,24 @@
                 </Menu-item>
                 <Menu-item name="2">
                     <Icon type="ios-keypad"></Icon>
-                    <a href="https://github.com/Kelichao"  target="_Blank"> 联系我们--github</a>
-                </Menu-item>			
+                    <a href="https://github.com/Kelichao" target="_Blank"> 联系我们--github</a>
+                </Menu-item>
             </div>
         </Menu>
         <Menu mode="horizontal" v-bind:active-name="nowHash" @on-select="changeFunction">
             <div class="layout-assistant">
-                <router-link to="/type"><Menu-item name="type">图表展示</Menu-item></router-link>
-                <router-link to="/index"><Menu-item name="index">表格展示</Menu-item></router-link>
-                <router-link to="/frontPage"><Menu-item name="frontPage">前端页面报错</Menu-item></router-link>
-				<router-link to="/form"><Menu-item name="form">模拟数据</Menu-item></router-link>
+                <router-link to="/type">
+                    <Menu-item name="type">图表展示</Menu-item>
+                </router-link>
+                <router-link to="/index">
+                    <Menu-item name="index">表格展示</Menu-item>
+                </router-link>
+                <router-link to="/frontPage">
+                    <Menu-item name="frontPage">前端页面报错</Menu-item>
+                </router-link>
+                <router-link to="/form">
+                    <Menu-item name="form">模拟数据</Menu-item>
+                </router-link>
             </div>
         </Menu>
         <div class="layout-content">
@@ -103,18 +117,65 @@
                 </i-col>
                 <i-col span="19">
                     <div class="layout-content-main">
-                        <router-view></router-view><!--  这里是用来展示路由页面内容的，如果想用跳转就用<router-link to='xxx'></router-link> -->
+                        <router-view></router-view>
+                        <!--  这里是用来展示路由页面内容的，如果想用跳转就用<router-link to='xxx'></router-link> -->
                     </div>
                 </i-col>
-                
+
                 <!--<Spin size="large" fix v-if="spinShow"></Spin>-->
             </Row>
         </div>
-		
 
-		          <!--<div class="layout-copy">
+
+        <!--<div class="layout-copy">
             2011-2016 &copy; TalkingData
         </div>-->
+    </div>
+    <div v-else class="layout">
+        <div sw-role="cell" sw-mode="y" class="page-content login-screen-content">
+            <div sw-role="cell" sw-layout="fit" sw-align="center" sw-valign="middle">
+                <div class="login-panel input-shine" sw-role="cell">
+                    <div class="login-panel-inner" sw-role="cell" sw-layout="fit" sw-mode="y">
+                        <div sw-role="cell" sw-align="center">
+                            <div class="avatar"></div>
+                        </div>
+                        <div sw-role="cell" sw-align="center" class="margin-t-10 margin-b-10 font-16" data-i18n="APP.NAME">
+                        </div>
+
+                        <form class="ajax-submit-onchange" id="loginForm">
+                            <div sw-role="cell" class="login-input">
+                                <div sw-role="cell" sw-layout="fit" class="item-input">
+                                    <input type="text" name="username" id="loginName" placeholder="" data-i18n-placeholder="LOGIN.T.USERNAME">
+                                </div>
+                                <div sw-role="cell">
+                                </div>
+                            </div>
+                            <div sw-role="cell" class="login-input">
+                                <div sw-role="cell" sw-layout="fit" class="item-input">
+                                    <input type="password" name="password" id="loginPsw" placeholder="" data-i18n-placeholder="LOGIN.T.PASSWORD">
+                                </div>
+                                <div sw-role="cell">
+                                </div>
+                            </div>
+                            <div sw-role="cell">
+                                <button type="button" sw-layout="fit" id="loginButton" class="button button-fill h44" data-i18n="LOGIN.B.LOGIN">登录</button>
+                            </div>
+                        </form>
+
+                        <div sw-role="cell" sw-mode="x-equal" class="margin-t-15 margin-b-10">
+                            <div sw-role="cell">
+                                <a href="#" id="forgetUser" data-i18n="LOGIN.B.FORGET_PASSWORD"></a>
+                            </div>
+                            <div sw-role="cell" sw-align="right">
+                                <a href="#" id="loginChangeLang" data-i18n="LOGIN.B.SWITCH_LANGUAGE"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div sw-role="cell" sw-align="center" sw-valign="middle" class="login-copyright">©2017 杭州吉利易云科技有限公司 版权所有</div>
+            <div id="particles-js"></div>
+        </div>
     </div>
 </template>
 <script>
@@ -122,31 +183,33 @@
 
 
     $.ajaxSetup({
-        beforeSend: function() {
+        beforeSend: function () {
 
         },
-        complete: function() {
+        complete: function () {
 
         }
     });
 
 
     export default {
-		data: function() {
-			return {
-				nowHash:"type",
-                spinShow: true
-			}
-		},
-        created: function() {
-            this.nowHash =  window.location.hash.substring(2) || "type";
+        data: function () {
+            return {
+                nowHash: "type",
+                spinShow: true,
+                isLogin: false
+            }
+        },
+        created: function () {
+            this.nowHash = window.location.hash.substring(2) || "type";
         },
         methods: {
-			changeFunction: function(name) {
+            changeFunction: function (name) {
                 //console.log(22222)
-				// backErr frontErr simuErr
-				// console.log(name)
-			}
-		}
+                // backErr frontErr simuErr
+                // console.log(name)
+            }
+        }
     }
+
 </script>
