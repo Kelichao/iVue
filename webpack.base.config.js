@@ -46,14 +46,21 @@ module.exports = {
                 })
             },
 
+            // {
+            //     test: /\.less/,
+            //     use: ExtractTextPlugin.extract({
+            //         use: ['autoprefixer-loader', 'less-loader'],
+            //         fallback: 'style-loader'
+            //     })
+            // },
             {
-                test: /\.less/,
-                use: ExtractTextPlugin.extract({
-                    use: ['autoprefixer-loader', 'less-loader', 'autoprefixer-loader'],
-                    fallback: 'style-loader'
-                })
+                test: /\.less$/,
+                use: [
+                    'style-loader',
+                    { loader: 'css-loader', options: { importLoaders: 1 } },
+                    { loader: 'less-loader', options: { sourceMap: true } }
+                ]
             },
-
             {
                 test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
                 loader: 'url-loader?limit=1024'

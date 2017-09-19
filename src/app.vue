@@ -1,4 +1,138 @@
-<style scoped>
+<style  lang="less" scoped> 
+.login-screen-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+ 
+.login-screen-content {
+    background: url('/src/static/images/login_bg.jpg') center;
+    background-size: cover;
+}
+
+.login-panel {
+    background: #fff;
+    border-radius: 2px;
+    min-width: 310px;
+    min-height: 310px;
+    position: relative;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.login-panel:after {
+    display: block;
+    content: '';
+    background: url('/src/static/images/login_form_top.png') no-repeat;
+    background-size: 100%;
+    height: 16px;
+    position: absolute;
+    top: -14px;
+    left: 0;
+    width: 100%;
+}
+
+.login-panel-inner {
+    border: #1a406e solid 5px;
+    border-radius: 2px;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    min-width: 310px;
+    min-height: 310px;
+}
+
+.login-input {
+    border: rgb(215, 215, 215) solid 1px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.75);
+    margin-bottom: 10px;
+
+}
+
+.login-input input {
+        border: none;
+        padding: 0 10px;
+        font-size: 14px;
+        height: 42px;
+        width: 100%;
+    }
+
+.login-copyright {
+    color: #fff;
+    opacity: 0.5;
+    font-size: 12px;
+    height: 80px;
+}
+
+.avatar {
+    border-radius: 50%;
+    background-color:white;
+    background-image: url('/src/static/images/avatar.png');
+    background-repeat:  no-repeat;
+    background-size: 48px 48px;
+    border: #6a7897 solid 3px;
+    width: 52px;
+    height: 52px;
+    position: relative;
+
+
+}
+
+.avatar img {
+    width: 100%;
+}
+
+#loginButton{
+    transition: all 1s;
+    text-shadow: 0px 0px 19px white;
+}
+
+#loginButton:hover {
+    box-shadow: 1px 1px 4px 2px #9f9e9e;
+    background-color: #075694;
+    color: #e0e6eb;
+}
+
+#loginName {
+    background: url("/src/static/images/login-name-bg.png") 95% center no-repeat;
+    -webkit-text-fill-color: #555;
+}
+
+#loginPsw {
+    background: url(/src/static/images/login-psw-bg.png) 95% center no-repeat;
+    -webkit-text-fill-color: #555;
+}
+
+#particles-js{
+    width: 100%;
+    height: 98%;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    position: absolute;
+    top:0;
+    z-index:-1;
+    opacity: 0.5;
+}
+
+.input-shine {
+    animation-name: inputShine;   
+    animation-duration: 2s;  
+    animation-iteration-count: infinite;   
+    transition: all 1s;
+}
+
+@-webkit-keyframes  inputShine {  
+    0% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+    } 
+}
     .layout {
         border: 1px solid #d7dde4;
         background: #f5f7f9;
@@ -49,10 +183,6 @@
         padding: 10px 0 20px;
         color: #9ea7b4;
     }
-    /*.ivu-menu-horizontal {
-        height:80px;
-        line-height:80px;
-    }*/
 </style>
 <template>
     <div v-if="isLogin === true" class="layout">
@@ -132,17 +262,32 @@
         </div>-->
     </div>
     <div v-else class="layout">
-        <div sw-role="cell" sw-mode="y" class="page-content login-screen-content">
+
+        <div sw-role="cell" sw-mode="y" class="login-screen-content">
             <div sw-role="cell" sw-layout="fit" sw-align="center" sw-valign="middle">
                 <div class="login-panel input-shine" sw-role="cell">
+
                     <div class="login-panel-inner" sw-role="cell" sw-layout="fit" sw-mode="y">
                         <div sw-role="cell" sw-align="center">
                             <div class="avatar"></div>
                         </div>
-                        <div sw-role="cell" sw-align="center" class="margin-t-10 margin-b-10 font-16" data-i18n="APP.NAME">
-                        </div>
-
-                        <form class="ajax-submit-onchange" id="loginForm">
+                        <div sw-role="cell" sw-align="center" class="f-mt10 f-mb10 font-16">iME-Client管理系统</div>
+                        <Form ref="formInline" :model="formInline" :rules="ruleInline">
+                                <FormItem prop="user">
+                                    <Input type="text" v-model="formInline.user" placeholder="用户名">
+                                        
+                                    </Input>
+                                </FormItem>
+                                <FormItem prop="password">
+                                    <Input type="password" v-model="formInline.password" placeholder="密码">
+                                        
+                                    </Input>
+                                </FormItem>
+                                <FormItem>
+                                    <Button type="primary" @click="handleSubmit('formInline')" long>登录</Button>
+                                </FormItem>
+                            </Form>
+                        <!-- <form class="ajax-submit-onchange" id="loginForm">
                             <div sw-role="cell" class="login-input">
                                 <div sw-role="cell" sw-layout="fit" class="item-input">
                                     <input type="text" name="username" id="loginName" placeholder="" data-i18n-placeholder="LOGIN.T.USERNAME">
@@ -158,9 +303,9 @@
                                 </div>
                             </div>
                             <div sw-role="cell">
-                                <button type="button" sw-layout="fit" id="loginButton" class="button button-fill h44" data-i18n="LOGIN.B.LOGIN">登录</button>
+                                <Button type="primary" size="large" long>登录</Button>
                             </div>
-                        </form>
+                        </form> -->
 
                         <div sw-role="cell" sw-mode="x-equal" class="margin-t-15 margin-b-10">
                             <div sw-role="cell">
@@ -179,6 +324,14 @@
     </div>
 </template>
 <script>
+    /*
+    * @name: \src\less\themes\client_loginPanel.less
+    * @url: http://git.evun.cn/GMES/GMES_CLIENT_PAD
+    * @author: EVUN前端组
+    * @modify: kelichao
+    * @update: 2017-06-13
+    * @decript: 登录页面样式
+    */ 
     import $ from "./static/js/jquery.js";
 
 
@@ -197,13 +350,35 @@
             return {
                 nowHash: "type",
                 spinShow: true,
-                isLogin: false
+                isLogin: false,
+                formInline: {
+                    user: '',
+                    password: ''
+                },
+                ruleInline: {
+                    user: [
+                        { required: true, message: '请填写用户名', trigger: 'blur' }
+                    ],
+                    password: [
+                        { required: true, message: '请填写密码', trigger: 'blur' },
+                        { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
+                    ]
+                }
             }
         },
         created: function () {
             this.nowHash = window.location.hash.substring(2) || "type";
         },
         methods: {
+            handleSubmit(name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$Message.success('提交成功!');
+                    } else {
+                        this.$Message.error('表单验证失败!');
+                    }
+                })
+            },
             changeFunction: function (name) {
                 //console.log(22222)
                 // backErr frontErr simuErr
